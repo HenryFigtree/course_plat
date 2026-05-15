@@ -22,7 +22,7 @@ def dashboard():
     return render_template('admin/dashboard.html')
 
 def allowed_file(filename):
-    return( "." in filename and filename.rsplit(".", 1)[1].lower() in current_app.config['ALLOWED_EXTENTIONS'])
+    return( "." in filename and filename.rsplit(".", 1)[1].lower() in current_app.config['ALLOWED_EXTENSIONS'])
 
 @bp.route('/uploadcourse', methods = ('GET', 'POST'))
 @admin_required
