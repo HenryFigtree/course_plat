@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Question {{ question_number }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+	<h2>Edit question. You can add a question or change the current one</h2>
+	<form method = "post">
+		<label for = "question">
+			{{ "Edit question" if question else "Create question" }}
+		</label>
+		<input name="question" value="{{ question['question'] if question else "" }}">
+
+
+		{% set letters = ['a', 'b', 'c', 'd'] %}
+
+		{% for i in range(4) %}
+
+			<div>
+				<input type="text" name="{{ letters[i] }}" value="{{ choices[i]['choice'] if question else "" }}">
+
+				<input type="radio" name="is_correct" value="{{ i }}" {% if question and choices[i]['is_correct'] %}checked{% endif %}>
+			</div>
+
+		{% endfor %}
+
+		<button type="submit">Save</button>
+
+	</form>
+
+{% endblock %}

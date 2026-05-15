@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<h1>{% block title %}Create Exam{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+	<h2>Select a course for the exam</h2>
+	<form method = "post">
+		<select name = "course_id">
+			<option disabled selected>Select course</option>
+
+			{% for course in courses %}
+			<option value = "{{ course['id'] }}">
+				{{ course['course'] }}
+			</option>
+			{% endfor %}
+		</select>
+		<button type="submit">Upload course</button>
+	</form>
+{% endblock %}
+

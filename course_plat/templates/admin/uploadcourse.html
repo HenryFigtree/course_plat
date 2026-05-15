@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<h1>{% block title %}Upload Course{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+	<h2>Upload a Course PDF or Presentation</h2>
+	<form method="POST" enctype="multipart/form-data">
+		<label for="course">Course Name</label>
+		<input name="course" id="course" required>
+		<input type="file" name="course_file">
+		<button type="submit">Upload course</button>
+	</form>
+{% endblock %}
+

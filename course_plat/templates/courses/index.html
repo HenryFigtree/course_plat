@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<h1>{% block title %}Index{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+	<h2>Welcome!</h2>
+	<h2>Available Courses<h2>
+			{% for c in courses %}
+				<a href="{{ url_for('courses.download_course', course_id = c['id']) }}">{{c['course']}}</a>
+			{% endfor%}
+{% endblock %}

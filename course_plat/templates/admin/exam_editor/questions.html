@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<h1>{% block title %}Questions{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+	<h2>Select a question to edit or create a new one</h2>
+	<form method = "post">
+		<select name = "question_number">
+			<option disabled selected>Select question</option>
+
+			{% for question in questions %}
+			<option value = "{{ question['question_number'] }}">
+				{{ question['question'] }}
+			</option>
+			{% endfor %}
+		</select>
+		<button type="submit" name="action" value="edit">Edit question</button>
+	</form>
+
+	<form method = "post">
+		<button type=submit name="action" value="new">
+			Add new question
+		</button>
+{% endblock %}
+

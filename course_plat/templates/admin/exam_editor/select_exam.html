@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<h1>{% block title %}Exam Editor{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+	<h2>Select an exam</h2>
+	<form method = "post">
+		<select name = "exam_id">
+			<option disabled selected>Select an exam</option>
+
+			{% for exam in exams %}
+			<option value = "{{ exam['id'] }}">
+				{{ exam['course'] }}
+			</option>
+			{% endfor %}
+		</select>
+		<button type="submit">Edit exam</button>
+	</form>
+
+	<a href="{{ url_for('admin.create_exam') }}">Create an exam</a>
+
+{% endblock %}
+
