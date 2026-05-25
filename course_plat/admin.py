@@ -116,7 +116,7 @@ def select_question(exam_id):
             return redirect(url_for('admin.question', exam_id = exam_id, question_number = question_number))
 
         elif action == "new":
-            service = QuestionService(question_repo, choice_repo)
+            service = QuestionService(db, question_repo, choice_repo)
             question_number = service.next_question_number(exam_id)
             return redirect(url_for('admin.question', exam_id = exam_id, question_number = question_number))
 
@@ -156,12 +156,11 @@ def question(exam_id, question_number):
             choices = choices
         )
         
-        service = QuestionService(question_repo, choice_repo) 
+        service = QuestionService(db, question_repo, choice_repo) 
         error = None
 
         try:
             service.save_question(question)
-            db.commit()
         except ValueError as e:
             error = str(e)
             flash(error)

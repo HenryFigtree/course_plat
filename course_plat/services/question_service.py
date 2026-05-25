@@ -1,5 +1,6 @@
 class QuestionService:
-    def __init__(self, question_repo, choice_repo):
+    def __init__(self, db, question_repo, choice_repo):
+        self.db = db
         self.question_repo = question_repo
         self.choice_repo = choice_repo
 
@@ -22,6 +23,5 @@ class QuestionService:
 
             for choice in question.choices:
                 self.choice_repo.edit_choice(choice.number, choice.text, choice.is_correct, question.exam_id, question.number)
-            
 
-
+        self.db.commit()
