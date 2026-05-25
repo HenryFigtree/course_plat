@@ -10,6 +10,10 @@ from course_plat.repositories.choice_repo import ChoiceRepository
 from course_plat.repositories.course_repo import CourseRepository
 from course_plat.repositories.exam_repo import ExamRepository
 from course_plat.services.question_service import QuestionService
+from course_plat.services.course_service import CourseService
+from course_plat.exceptions import (
+        InvalidFileTypeError, CourseAlreadyExists
+)
 from course_plat.models.question import (
         Question, Choice
 )
@@ -21,9 +25,6 @@ bp = Blueprint('admin', __name__, url_prefix = '/admin')
 def dashboard():
     return render_template('admin/dashboard.html')
 
-def allowed_file(filename):
-    return( "." in filename and filename.rsplit(".", 1)[1].lower() in current_app.config['ALLOWED_EXTENSIONS'])
-
 @bp.route('/uploadcourse', methods = ('GET', 'POST'))
 @admin_required
 def upload_course():
@@ -33,6 +34,7 @@ def upload_course():
 
         db = get_db()
         repo = CourseRepository(db)
+        service = CourseService(repo)
 
         if not course:
             flash("Write a name for the course")
@@ -42,26 +44,16 @@ def upload_course():
             flash("No file type")
             return render_template('admin/uploadcourse.html')
 
-        filename = secure_filename(file.filename)
-
-        if not allowed_file(filename):
-            flash("Invalid file type")
-            return render_template('admin/uploadcourse.html')
         try:
-            registered_course = repo.register_course(course, filename) 
-            
-        except db.IntegrityError:
-            flash("Course already exists")
-            return render_template('admin/uploadcourse.html')
+            service.register_course(course, file)
+            flash("succesfully uploaded the course")
 
-        course_id = registered_course.lastrowid
-        stored_filename = f"course_{course_id}_{filename}"
-        repo.set_filepath(stored_filename, course_id)
-        filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], stored_filename)
-        file.save(filepath)
-        db.commit()
+        except InvalidFileTypeError:
+            flash("Invalid Filetype")
 
-        flash("succesfully uploaded the course")
+        except CourseAlreadyExists:
+            flash("Course Already Exists")
+
         return redirect(url_for('admin.dashboard'))
 
     return render_template('admin/uploadcourse.html')

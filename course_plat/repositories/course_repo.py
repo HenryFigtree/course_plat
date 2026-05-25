@@ -2,7 +2,7 @@ class CourseRepository:
     def __init__(self, db):
         self.db = db
 
-    def register_course(self, course, filename):
+    def write_course(self, course, filename):
         return self.db.execute(
                 "INSERT INTO courses (course, file_name) VALUES (?, ?)",
                 (course, filename)
