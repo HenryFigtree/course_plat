@@ -1,3 +1,9 @@
+"""
+Course Repository
+
+Provides Database operations related to registering and retrieving courses
+"""
+
 class CourseRepository:
     def __init__(self, db):
         self.db = db

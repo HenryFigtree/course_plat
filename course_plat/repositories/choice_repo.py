@@ -1,3 +1,9 @@
+"""
+Choice repository
+
+Contains database operations for adding, editing and retrieving choices for a question
+"""
+
 class ChoiceRepository:
     def __init__(self, repo):
         self.repo = repo

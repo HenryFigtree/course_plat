@@ -1,3 +1,9 @@
+"""
+Course service
+
+Contains the logic related to course management as well as file handling
+"""
+
 import os
 from flask import current_app
 from werkzeug.utils import secure_filename

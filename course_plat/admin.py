@@ -1,3 +1,9 @@
+"""
+Admin Blueprint
+
+Contains routes restricted to administrators for managing courses and exams including edition and creation.
+"""
+
 from flask import (
         Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app
 )

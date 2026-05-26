@@ -1,3 +1,9 @@
+"""
+Courses blueprint
+
+Contains routes for downloading and viewing available courses
+"""
+
 from flask import (
         Blueprint, flash, g, render_template, request, url_for, send_from_directory, current_app, abort
 )

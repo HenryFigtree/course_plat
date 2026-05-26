@@ -1,3 +1,9 @@
+"""
+Question repository
+
+Contains database operations for retrieving, adding and editing questions
+"""
+
 class QuestionRepository:
     def __init__(self, db):
         self.db = db

@@ -1,3 +1,9 @@
+"""
+Question service
+
+Contains the logic related to managing questions such as registering a question
+"""
+
 class QuestionService:
     def __init__(self, db, question_repo, choice_repo):
         self.db = db
