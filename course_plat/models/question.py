@@ -1,4 +1,13 @@
+"""
+Classes Question and Choice
+
+Used to represent questions and their associated choices
+"""
+
 class Question:
+    """
+    Represents a question and its associated choices
+    """
     def __init__(self, exam_id, number, text, choices):
         self.exam_id = exam_id
         self.number = number
@@ -28,6 +37,9 @@ class Question:
 
 
 class Choice:
+    """
+    Represents a possible choice for a questions answer
+    """
     def __init__(self, number, text, is_correct):
         self.number = number
         self.text = text
