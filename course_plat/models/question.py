@@ -21,6 +21,15 @@ class Question:
             return None
 
     def validate(self):
+        """
+        Validates a question checking
+        - if both question and choices are not empty
+        - if there are exactly 4 choices and exactly 1 correct answer
+
+        Raises:
+            ValueError: if any validation rule is violated
+        """
+
         if not self.text.strip():
             raise ValueError("Question cannot be empty")
 
