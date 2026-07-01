@@ -1,55 +1,30 @@
-# WIP Course and Exam Management System
+# Refactor around classrooms
 
-Flask Web Application for creating and managing courses and exams.
+## Summary
 
-## Features
+WIP this refactor changes the application from course centered template to a classroom centered learning platform.
 
-- User authentication
-- Course and exam creation
-- Create, delete and edit question from exam
-- Multiple choice questions
-- File uploads
+The initial project served as a template and proof of concept. This refactor marks the transition to a complete web application, introducing a domain model centered around classrooms, teachers, modules, resources and assessments.
 
-## Installation
+## Database
 
-Clone repository
+- Added `classrooms` as the central entity
+- Added `classroom_members` with support for different roles
+- Refactored modules into organizational containers with unique positions
+- Separated learning resources from assessments
+- Assessments support multiple submission methods (upload methods is a wip, currently just online methods)
 
-```bash
-git clone https://github.com/HenryFigtree/course_plat.git
-cd course_plat
-```
+- Added support for different question types
 
-create and activate virtual environment
+## Architectural changes
 
-```bash
-python3 -m venv .venv
-. .venv/bin/activate
-```
+- Simplified relationships and clarified responsibilities across the data model
+- Established a foundation for future features
 
-Install dependencies
-```bash
-pip install -r requirements.txt
-```
+## Upcoming work
 
-Database must be initialized
-
-```bash
-flask --app course_plat init-db
-```
-
-Run the following to run the app
-
-```
-flask --app course_plat run
-```
-
-## WIP
-
-Working on users course tracking and exam taking.
-
-## Future Improvements
-
-- Add unit tests
-- Search functionality
-- Post creation by users and teachers
-- API support
+- Teacher classroom creation management
+- Classroom member invites and roles
+- Module creation and organization
+- Resource creation and management
+- Online assessment creation and management
