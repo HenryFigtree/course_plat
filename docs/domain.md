@@ -56,3 +56,9 @@ Application
   └─Site Administration (design in progress)
 ```
 
+## Roles
+
+- Owner: Creates and administers classroom. An Owner has all Teacher permissins plus classroom administration privileges.
+
+- Teacher: Can create and manage modules, resources, and assessments.
+- Student Can access classroom content and submit assessments.
