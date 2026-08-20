@@ -22,7 +22,7 @@ CREATE TABLE classroom (
 	owner_id INTEGER,
 
 	FOREIGN KEY (owner_id) REFERENCES users(id)
-;
+);
 
 
 -----------------------------------------------------------------------------
@@ -83,24 +83,30 @@ CREATE TABLE resources (
 );
 
 CREATE TABLE links (
-	resource_id INTEGER PRIMARY KEY,
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	resource_id INTEGER,
 	url TEXT NOT NULL,
 	link_text TEXT NOT NULL,
+	position INTEGER,
 
 	FOREIGN KEY (resource_id) REFERENCES resources(id)
 );
 
-CREATE TABLE files (
-	resource_id INTEGER PRIMARY KEY,
+gREATE TABLE files (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	resource_id INTEGER,
 	file_name TEXT NOT NULL,
 	file_path TEXT NOT NULL,
+	position INTEGER,
 
 	FOREIGN KEY (resource_id) REFERENCES resources(id)
 );
 
 CREATE TABLE sections (
-	resource_id INTEGER PRIMARY KEY,
-	content TEXT NOT NULL
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	resource_id INTEGER,
+	content TEXT NOT NULL,
+	position INTEGER,
 
 	FOREIGN KEY (resource_id) REFERENCES resources(id)
 );
