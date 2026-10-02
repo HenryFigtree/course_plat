@@ -33,7 +33,7 @@ class Link:
         self.text = text
         self.url = self._validate_url(url)
 
-    def _validate_url(url):
+    def _validate_url(self, url):
         url_split = urlsplit(url)
 
         if url_split.scheme not in ("http", "https"):
