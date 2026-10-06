@@ -92,7 +92,7 @@ CREATE TABLE links (
 	FOREIGN KEY (resource_id) REFERENCES resources(id)
 );
 
-gREATE TABLE files (
+CREATE TABLE files (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	resource_id INTEGER,
 	file_name TEXT NOT NULL,
