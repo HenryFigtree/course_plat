@@ -98,8 +98,14 @@ class Assessments:
     def remove(self, assessment):
         self._assessments.remove(assessment)
 
-class OnlineAssessment:
-    def __init__(self):
+class Assessment:
+    def __init__(self, title, instructions):
+        self.title = title
+        self.instructions = instructions
+
+class OnlineAssessment(Assessment):
+    def __init__(self, title, instructions):
+        super().__init__(title, instructions)
         self._questions = []
 
     @property
