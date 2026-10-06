@@ -1,41 +1,79 @@
 """
 Question repository
 
-Contains database operations for retrieving, adding and editing questions
+Contains database operations for retrieving and creating questions
 """
 
 class QuestionRepository:
     def __init__(self, db):
         self.db = db
 
-    def get_last_question(self, exam_id):
-        return self.db.execute(
-                "SELECT COUNT(*) FROM questions WHERE exam_id = ?",
-                (exam_id,)
-                ).fetchone()[0]
+    def get_question(self, question_id):
+        question = self.db.execute(
+            """SELECT question, answer_type
+            FROM questions
+            WHERE id = ?""",
+            (question_id,)
+        ).fetchone()
 
-    def get_questions(self, exam_id):
-        return self.db.execute(
-                "SELECT question_number, question FROM questions WHERE exam_id = ?",
-                (exam_id,)
-                ).fetchall()
+        if question is None:
+            return None
 
-    def select_question(self, exam_id, question_number):
-        return self.db.execute(
-                "SELECT question FROM questions WHERE exam_id = ? AND question_number = ?",
-                (exam_id, question_number)
-                ).fetchone()
+        choices = self.db.execute(
+            """SELECT choice, is_correct
+            FROM choices
+            WHERE question_id = ?
+            ORDER BY position""",
+            (question_id,)
+        ).fetchall()
 
-    def add_question(self, exam_id, question_number, text):
-        self.db.execute(
-                "INSERT INTO questions (exam_id, question_number, question) VALUES (?, ?, ?)",
-                (exam_id, question_number, text)
+        question_type = QuestionType(question["answer_type"])
+
+        if question_type == QuestionType.MULTIPLE_CHOICE:
+            choices_data = Choices()
+            correct_choice = None
+
+            for row in choices:
+                choice = row["choice"]
+                choices_data.add_choice(choice)
+
+                if row["is_correct"]:
+                    correct_choice = choice
+
+            return Question(
+                question_type,
+                question["question"],
+                choices_data,
+                correct_choice
+            )
+
+    def add_question(self, assessment_id, position, question):
+        question_cursor = self.db.execute(
+            """INSERT INTO questions
+            (assessment_id, position, question, answer_type)
+            VALUES (?, ?, ?, ?)""",
+            (
+                assessment_id,
+                position,
+                question.text,
+                question.question_type.value
+            )
         )
 
-    def edit_question(self, text, exam_id, question_number):
-        self.db.execute(
-                "UPDATE questions SET question = ? WHERE exam_id = ? AND question_number = ?",
-                (text, exam_id, question_number)
-        )
+        question_id = question_cursor.lastrowid
 
-        
+        if question.question_type == QuestionType.MULTIPLE_CHOICE:
+            for position, choice in enumerate(question.choices.choices):
+                is_correct = choice == question.correct_choice
+
+                self.db.execute(
+                    """INSERT INTO choices
+                    (question_id, position, choice, is_correct)
+                    VALUES (?, ?, ?, ?)""",
+                    (
+                        question_id,
+                        position,
+                        choice,
+                        is_correct
+                    )
+                )

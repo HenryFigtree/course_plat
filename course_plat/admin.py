@@ -139,10 +139,10 @@ def question(exam_id, question_number):
     if request.method == "POST":
 
         choice_text = [
-            request.form['a'],
-            request.form['b'],
-            request.form['c'],
-            request.form['d']
+            request.form,get('a', '').strip(),
+            request.form.get('b', '').strip(),
+            request.form.get('c', '').strip(),
+            request.form.get('d', '').strip()
         ]
         correct_number = int(request.form['is_correct'])
         
