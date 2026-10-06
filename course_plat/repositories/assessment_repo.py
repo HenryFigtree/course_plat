@@ -7,35 +7,40 @@ class AssessmentRepository:
     def __init__(self, db):
         self.db = db
 
-    def get_assessment(self, assessment_id):
-        assessment = self.db.execute(
+    def get_assessments(self, module_id):
+        rows = self.db.execute(
             """SELECT title, instructions, submission_type
             FROM assessments
-            WHERE id = ?""",
-            (assessment_id,)
-        ).fetchone()
+            WHERE module_id = ?""",
+            (module_id,)
+        ).fetchall()
 
-        if assessment is None:
-            return None
+        assessments = Assessments()
 
-        if assessment["submission_type"] == "online":
-            return OnlineAssessment(
-                assessment["title"],
-                assessment["instructions"]
-            )
+        for row in rows:
+            if row["submission_type"] == "online":
+                assessment = OnlineAssessment(
+                    row["title"],
+                    row["instructions"]
+                )
+            else:
+                assessment = Assessment(
+                    row["title"],
+                    row["instructions"]
+                )
 
-        return Assessment(
-            assessment["title"],
-            assessment["instructions"]
-        )
+            assessments.add(assessment)
 
-    def add_assessment(self,module_id, assessment, category):
-        submission_type = "" 
+        return assessments
+
+    def add_assessment(self, module_id, assessment, category):
+        submission_type = ""
+
         if isinstance(assessment, OnlineAssessment):
             submission_type = "online"
 
         self.db.execute(
-            """INSERT INTO assessments 
+            """INSERT INTO assessments
             (module_id, category, submission_type, title, instructions)
             VALUES (?, ?, ?, ?, ?)""",
             (
@@ -46,6 +51,3 @@ class AssessmentRepository:
                 assessment.instructions
             )
         )
-
-
-
