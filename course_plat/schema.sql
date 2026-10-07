@@ -105,6 +105,7 @@ CREATE TABLE files (
 CREATE TABLE sections (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	resource_id INTEGER,
+	title TEXT NOT NULL,
 	content TEXT NOT NULL,
 	position INTEGER,
 
